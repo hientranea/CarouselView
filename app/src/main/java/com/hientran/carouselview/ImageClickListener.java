@@ -5,5 +5,5 @@ package com.hientran.carouselview;
  */
 
 public interface ImageClickListener {
-    void onClick(int position);
+  void onClick(int position);
 }
