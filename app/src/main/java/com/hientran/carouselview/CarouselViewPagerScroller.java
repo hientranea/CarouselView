@@ -11,7 +11,7 @@ import android.widget.Scroller;
 public class CarouselViewPagerScroller extends Scroller {
 
 
-  private int mScrollDuration = 600;
+  int mScrollDuration = 600;
 
   public CarouselViewPagerScroller(Context context) {
     super(context);
@@ -19,14 +19,6 @@ public class CarouselViewPagerScroller extends Scroller {
 
   public CarouselViewPagerScroller(Context context, Interpolator interpolator) {
     super(context, interpolator);
-  }
-
-  public int getmScrollDuration() {
-    return mScrollDuration;
-  }
-
-  public void setmScrollDuration(int mScrollDuration) {
-    this.mScrollDuration = mScrollDuration;
   }
 
   @Override

@@ -3,6 +3,7 @@ package com.hientran.carouselview;
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.animation.Interpolator;
 
@@ -47,6 +48,7 @@ public class CarouselViewPager extends ViewPager {
           (Interpolator) interpolator.get(null));
       scroller.set(this, mScroller);
     } catch (Exception e) {
+      Log.d(Constant.TAG, e.toString());
     }
   }
 
@@ -54,7 +56,7 @@ public class CarouselViewPager extends ViewPager {
    * Set the factor by which the duration will change
    */
   public void setTransitionVelocity(int scrollFactor) {
-    mScroller.setmScrollDuration(scrollFactor);
+    mScroller.mScrollDuration = scrollFactor;
   }
 
   @Override
@@ -75,8 +77,6 @@ public class CarouselViewPager extends ViewPager {
         newX = 0;
         break;
     }
-
     return super.onTouchEvent(ev);
   }
-
 }
