@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
@@ -78,11 +79,7 @@ public class CarouselView extends FrameLayout {
         } else {
           playCarousel();
         }
-
-      } else if (previousState == ViewPager.SCROLL_STATE_SETTLING
-          && state == ViewPager.SCROLL_STATE_IDLE) {
       }
-
       previousState = state;
 
     }
@@ -112,58 +109,56 @@ public class CarouselView extends FrameLayout {
   private void initView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
     if (isInEditMode()) {
       return;
-    } else {
-      View view = LayoutInflater.from(context).inflate(R.layout.view_carousel, this, true);
-      containerViewPager = (CarouselViewPager) view.findViewById(R.id.containerViewPager);
-      mIndicator = (CirclePageIndicator) view.findViewById(R.id.indicator);
+    }
+    View view = LayoutInflater.from(context).inflate(R.layout.view_carousel, this, true);
+    containerViewPager = view.findViewById(R.id.containerViewPager);
+    mIndicator = view.findViewById(R.id.indicator);
 
-      containerViewPager.addOnPageChangeListener(carouselOnPageChangeListener);
+    containerViewPager.addOnPageChangeListener(carouselOnPageChangeListener);
 
+    //Retrieve styles attributes
+    TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CarouselView, defStyleAttr, 0);
+    try {
+      indicatorMarginVertical = a.getDimensionPixelSize(R.styleable.CarouselView_indicatorMarginVertical, getResources().getDimensionPixelSize(R.dimen.default_indicator_margin_vertical));
+      indicatorMarginHorizontal = a.getDimensionPixelSize(R.styleable.CarouselView_indicatorMarginHorizontal, getResources().getDimensionPixelSize(R.dimen.default_indicator_margin_horizontal));
+      setPageTransformInterval(a.getInt(R.styleable.CarouselView_pageTransformInterval, DEFAULT_SLIDE_VELOCITY));
+      setSlideInterval(a.getInt(R.styleable.CarouselView_slideInterval, DEFAULT_SLIDE_INTERVAL));
+      setOrientation(a.getInt(R.styleable.CarouselView_indicatorOrientation, LinearLayout.HORIZONTAL));
+      setIndicatorGravity(a.getInt(R.styleable.CarouselView_indicatorGravity, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL));
+      setAutoPlay(a.getBoolean(R.styleable.CarouselView_autoPlay, true));
+      setDisableAutoPlayOnUserInteraction(a.getBoolean(R.styleable.CarouselView_disableAutoPlayOnUserInteraction, false));
+      setAnimateOnBoundary(a.getBoolean(R.styleable.CarouselView_animateOnBoundary, true));
+      setPageTransformer(a.getInt(R.styleable.CarouselView_pageTransformer, CarouselViewPagerTransformer.DEFAULT));
 
-      //Retrieve styles attributes
-      TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CarouselView, defStyleAttr, 0);
-      try {
-        indicatorMarginVertical = a.getDimensionPixelSize(R.styleable.CarouselView_indicatorMarginVertical, getResources().getDimensionPixelSize(R.dimen.default_indicator_margin_vertical));
-        indicatorMarginHorizontal = a.getDimensionPixelSize(R.styleable.CarouselView_indicatorMarginHorizontal, getResources().getDimensionPixelSize(R.dimen.default_indicator_margin_horizontal));
-        setPageTransformInterval(a.getInt(R.styleable.CarouselView_pageTransformInterval, DEFAULT_SLIDE_VELOCITY));
-        setSlideInterval(a.getInt(R.styleable.CarouselView_slideInterval, DEFAULT_SLIDE_INTERVAL));
-        setOrientation(a.getInt(R.styleable.CarouselView_indicatorOrientation, LinearLayout.HORIZONTAL));
-        setIndicatorGravity(a.getInt(R.styleable.CarouselView_indicatorGravity, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL));
-        setAutoPlay(a.getBoolean(R.styleable.CarouselView_autoPlay, true));
-        setDisableAutoPlayOnUserInteraction(a.getBoolean(R.styleable.CarouselView_disableAutoPlayOnUserInteraction, false));
-        setAnimateOnBoundary(a.getBoolean(R.styleable.CarouselView_animateOnBoundary, true));
-        setPageTransformer(a.getInt(R.styleable.CarouselView_pageTransformer, CarouselViewPagerTransformer.DEFAULT));
+      indicatorVisibility = a.getInt(R.styleable.CarouselView_indicatorVisibility, CarouselView.DEFAULT_INDICATOR_VISIBILITY);
 
-        indicatorVisibility = a.getInt(R.styleable.CarouselView_indicatorVisibility, CarouselView.DEFAULT_INDICATOR_VISIBILITY);
+      setIndicatorVisibility(indicatorVisibility);
 
-        setIndicatorVisibility(indicatorVisibility);
-
-        if (indicatorVisibility == View.VISIBLE) {
-          int fillColor = a.getColor(R.styleable.CarouselView_fillColor, 0);
-          if (fillColor != 0) {
-            setFillColor(fillColor);
-          }
-          int pageColor = a.getColor(R.styleable.CarouselView_pageColor, 0);
-          if (pageColor != 0) {
-            setPageColor(pageColor);
-          }
-          float radius = a.getDimensionPixelSize(R.styleable.CarouselView_radius, 0);
-          if (radius != 0) {
-            setRadius(radius);
-          }
-          setSnap(a.getBoolean(R.styleable.CarouselView_snap, getResources().getBoolean(R.bool.default_circle_indicator_snap)));
-          int strokeColor = a.getColor(R.styleable.CarouselView_strokeColor, 0);
-          if (strokeColor != 0) {
-            setStrokeColor(strokeColor);
-          }
-          float strokeWidth = a.getDimensionPixelSize(R.styleable.CarouselView_strokeWidth, 0);
-          if (strokeWidth != 0) {
-            setStrokeWidth(strokeWidth);
-          }
+      if (indicatorVisibility == View.VISIBLE) {
+        int fillColor = a.getColor(R.styleable.CarouselView_fillColor, 0);
+        if (fillColor != 0) {
+          setFillColor(fillColor);
         }
-      } finally {
-        a.recycle();
+        int pageColor = a.getColor(R.styleable.CarouselView_pageColor, 0);
+        if (pageColor != 0) {
+          setPageColor(pageColor);
+        }
+        float radius = a.getDimensionPixelSize(R.styleable.CarouselView_radius, 0);
+        if (radius != 0) {
+          setRadius(radius);
+        }
+        setSnap(a.getBoolean(R.styleable.CarouselView_snap, getResources().getBoolean(R.bool.default_circle_indicator_snap)));
+        int strokeColor = a.getColor(R.styleable.CarouselView_strokeColor, 0);
+        if (strokeColor != 0) {
+          setStrokeColor(strokeColor);
+        }
+        float strokeWidth = a.getDimensionPixelSize(R.styleable.CarouselView_strokeWidth, 0);
+        if (strokeWidth != 0) {
+          setStrokeWidth(strokeWidth);
+        }
       }
+    } finally {
+      a.recycle();
     }
   }
 
@@ -231,22 +226,21 @@ public class CarouselView extends FrameLayout {
   /**
    * Sets page transition animation.
    *
-   * @param transformer Pass {@link CarouselViewPagerTransformer#FLOW}, {@link CarouselViewPagerTransformer#ZOOM}, {@link CarouselViewPagerTransformer#DEPTH} or {@link CarouselViewPagerTransformer#SLIDE_OVER}
-   * @attr
-   */
-  public void setPageTransformer(@CarouselViewPagerTransformer.Transformer int transformer) {
-    setPageTransformer(new CarouselViewPagerTransformer(transformer));
-
-  }
-
-  /**
-   * Sets page transition animation.
-   *
    * @param pageTransformer Choose from zoom, flow, depth, slide_over .
    */
   public void setPageTransformer(ViewPager.PageTransformer pageTransformer) {
     this.pageTransformer = pageTransformer;
     containerViewPager.setPageTransformer(true, pageTransformer);
+  }
+
+  /**
+   * Sets page transition animation.
+   *
+   * @param transformer Pass {@link CarouselViewPagerTransformer#FLOW}, {@link CarouselViewPagerTransformer#ZOOM}, {@link CarouselViewPagerTransformer#DEPTH} or {@link CarouselViewPagerTransformer#SLIDE_OVER}
+   */
+  public void setPageTransformer(@CarouselViewPagerTransformer.Transformer int transformer) {
+    setPageTransformer(new CarouselViewPagerTransformer(transformer));
+
   }
 
   /**
@@ -491,8 +485,9 @@ public class CarouselView extends FrameLayout {
       mContext = context;
     }
 
+    @NonNull
     @Override
-    public Object instantiateItem(ViewGroup collection, int position) {
+    public Object instantiateItem(@NonNull ViewGroup collection, int position) {
 
       Object objectToReturn;
 
@@ -528,12 +523,12 @@ public class CarouselView extends FrameLayout {
     }
 
     @Override
-    public void destroyItem(ViewGroup collection, int position, Object view) {
+    public void destroyItem(@NonNull ViewGroup collection, int position, @NonNull Object view) {
       collection.removeView((View) view);
     }
 
     @Override
-    public boolean isViewFromObject(View view, Object object) {
+    public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
       return view == object;
     }
 

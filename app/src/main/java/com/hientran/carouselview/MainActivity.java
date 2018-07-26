@@ -40,11 +40,11 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    carouselView = (CarouselView) findViewById(R.id.carouselView);
-    customCarouselView = (CarouselView) findViewById(R.id.customCarouselView);
-    carouselLabel = (TextView) findViewById(R.id.carouselLabel);
-    customCarouselLabel = (TextView) findViewById(R.id.customCarouselLabel);
-    pauseButton = (Button) findViewById(R.id.pauseButton);
+    carouselView = findViewById(R.id.carouselView);
+    customCarouselView = findViewById(R.id.customCarouselView);
+    carouselLabel = findViewById(R.id.carouselLabel);
+    customCarouselLabel = findViewById(R.id.customCarouselLabel);
+    pauseButton = findViewById(R.id.pauseButton);
 
     pauseButton.setOnClickListener(pauseOnClickListener);
 
@@ -69,7 +69,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void setImageForPosition(int position, ImageView imageView) {
 
-      Picasso.with(getApplicationContext()).load(sampleNetworkImageURLs[position]).placeholder(sampleImages[0]).error(sampleImages[3]).fit().centerCrop().into(imageView);
+      Picasso.with(getApplicationContext())
+          .load(sampleNetworkImageURLs[position])
+          //.placeholder(sampleImages[0])
+          //.error(sampleImages[3])
+          .fit()
+          .centerCrop()
+          .into(imageView);
 
       //imageView.setImageResource(sampleImages[position]);
     }
