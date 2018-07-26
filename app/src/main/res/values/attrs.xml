@@ -36,10 +36,10 @@
     </attr>
 
     <attr name="pageTransformer">
-        <enum name="flow" value="0" />
-        <enum name="depth" value="1" />
-        <enum name="zoom" value="2" />
-        <enum name="slide_over" value="3" />
+        <enum name="slide_over" value="1001" />
+        <enum name="depth" value="1002" />
+        <enum name="zoom" value="1003" />
+        <enum name="flow" value="1004" />
     </attr>
 
     <attr name="centered" format="boolean" />
