@@ -1,7 +1,7 @@
 package com.hientran.carouselview.transform;
 
-/**
- * Created by hientran on 07/25/18.
+/*
+  Created by hientran on 07/25/18.
  */
 
 import android.support.annotation.NonNull;
@@ -17,7 +17,7 @@ import android.view.View;
  * Usage: viewPager.setPageTransformer(false, new ReaderViewPagerTransformer(TransformType.FLOW));
  */
 public class CarouselViewPagerTransformer implements ViewPager.PageTransformer {
-  
+
   private static final float MIN_SCALE_DEPTH = 0.75f;
   private static final float MIN_SCALE_ZOOM = 0.85f;
   private static final float MIN_ALPHA_ZOOM = 0.5f;
@@ -93,6 +93,7 @@ public class CarouselViewPagerTransformer implements ViewPager.PageTransformer {
         }
         break;
 
+      case Transformer.DEFAULT:
       default:
         return;
     }
