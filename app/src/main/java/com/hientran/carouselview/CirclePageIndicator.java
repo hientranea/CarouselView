@@ -263,7 +263,7 @@ public class CirclePageIndicator extends View implements PageIndicator {
   }
 
   @SuppressLint("ClickableViewAccessibility")
-  public boolean onTouchEvent(android.view.MotionEvent ev) {
+  public boolean onTouchEvent(MotionEvent ev) {
     if (super.onTouchEvent(ev)) {
       return true;
     }
@@ -276,13 +276,13 @@ public class CirclePageIndicator extends View implements PageIndicator {
     final int action = ev.getAction() & MotionEvent.ACTION_MASK;
     switch (action) {
       case MotionEvent.ACTION_DOWN:
-        mActivePointerId = MotionEventCompat.getPointerId(ev, 0);
+        mActivePointerId = ev.getPointerId(0);
         mLastMotionX = ev.getX();
         break;
 
       case MotionEvent.ACTION_MOVE: {
-        final int activePointerIndex = MotionEventCompat.findPointerIndex(ev, mActivePointerId);
-        final float x = MotionEventCompat.getX(ev, activePointerIndex);
+        final int activePointerIndex = ev.findPointerIndex(mActivePointerId);
+        final float x = ev.getX(activePointerIndex);
         final float deltaX = x - mLastMotionX;
 
         if (!mIsDragging) {
@@ -328,20 +328,20 @@ public class CirclePageIndicator extends View implements PageIndicator {
         break;
 
       case MotionEvent.ACTION_POINTER_DOWN: {
-        final int index = MotionEventCompat.getActionIndex(ev);
-        mLastMotionX = MotionEventCompat.getX(ev, index);
-        mActivePointerId = MotionEventCompat.getPointerId(ev, index);
+        final int index = ev.getActionIndex();
+        mLastMotionX = ev.getX(index);
+        mActivePointerId = ev.getPointerId(index);
         break;
       }
 
       case MotionEvent.ACTION_POINTER_UP:
-        final int pointerIndex = MotionEventCompat.getActionIndex(ev);
-        final int pointerId = MotionEventCompat.getPointerId(ev, pointerIndex);
+        final int pointerIndex = ev.getActionIndex();
+        final int pointerId = ev.getPointerId(pointerIndex);
         if (pointerId == mActivePointerId) {
           final int newPointerIndex = pointerIndex == 0 ? 1 : 0;
-          mActivePointerId = MotionEventCompat.getPointerId(ev, newPointerIndex);
+          mActivePointerId = ev.getPointerId(newPointerIndex);
         }
-        mLastMotionX = MotionEventCompat.getX(ev, MotionEventCompat.findPointerIndex(ev, mActivePointerId));
+        mLastMotionX = ev.getX(ev.findPointerIndex(mActivePointerId));
         break;
     }
 
