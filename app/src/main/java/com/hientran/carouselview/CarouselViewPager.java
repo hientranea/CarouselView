@@ -75,8 +75,14 @@ public class CarouselViewPager extends ViewPager {
         }
         oldX = 0;
         newX = 0;
+        performClick();
         break;
     }
     return super.onTouchEvent(ev);
+  }
+
+  @Override
+  public boolean performClick() {
+    return super.performClick();
   }
 }
