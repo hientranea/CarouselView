@@ -18,6 +18,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RemoteViews.RemoteView;
 
+import com.hientran.carouselview.transform.CarouselViewPagerTransformer;
+import com.hientran.carouselview.transform.Transformer;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -128,7 +131,7 @@ public class CarouselView extends FrameLayout {
       setAutoPlay(a.getBoolean(R.styleable.CarouselView_autoPlay, true));
       setDisableAutoPlayOnUserInteraction(a.getBoolean(R.styleable.CarouselView_disableAutoPlayOnUserInteraction, false));
       setAnimateOnBoundary(a.getBoolean(R.styleable.CarouselView_animateOnBoundary, true));
-      setPageTransformer(a.getInt(R.styleable.CarouselView_pageTransformer, CarouselViewPagerTransformer.DEFAULT));
+      setPageTransformer(a.getInt(R.styleable.CarouselView_pageTransformer, Transformer.DEFAULT));
 
       indicatorVisibility = a.getInt(R.styleable.CarouselView_indicatorVisibility, CarouselView.DEFAULT_INDICATOR_VISIBILITY);
 
@@ -225,22 +228,19 @@ public class CarouselView extends FrameLayout {
 
   /**
    * Sets page transition animation.
+   */
+  public void setPageTransformer(@Transformer int transformer) {
+    setPageTransformer(new CarouselViewPagerTransformer(transformer));
+  }
+
+  /**
+   * Sets page transition animation.
    *
    * @param pageTransformer Choose from zoom, flow, depth, slide_over .
    */
   public void setPageTransformer(ViewPager.PageTransformer pageTransformer) {
     this.pageTransformer = pageTransformer;
     containerViewPager.setPageTransformer(true, pageTransformer);
-  }
-
-  /**
-   * Sets page transition animation.
-   *
-   * @param transformer Pass {@link CarouselViewPagerTransformer#FLOW}, {@link CarouselViewPagerTransformer#ZOOM}, {@link CarouselViewPagerTransformer#DEPTH} or {@link CarouselViewPagerTransformer#SLIDE_OVER}
-   */
-  public void setPageTransformer(@CarouselViewPagerTransformer.Transformer int transformer) {
-    setPageTransformer(new CarouselViewPagerTransformer(transformer));
-
   }
 
   /**

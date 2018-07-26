@@ -1,16 +1,13 @@
-package com.hientran.carouselview;
+package com.hientran.carouselview.transform;
 
 /**
  * Created by hientran on 07/25/18.
  */
 
-import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 
 /*
  * ViewPager transformation animation invoked when a visible/attached page is scrolled - before
@@ -20,20 +17,16 @@ import java.lang.annotation.RetentionPolicy;
  * Usage: viewPager.setPageTransformer(false, new ReaderViewPagerTransformer(TransformType.FLOW));
  */
 public class CarouselViewPagerTransformer implements ViewPager.PageTransformer {
-
-  public static final int FLOW = 0;
-  public static final int SLIDE_OVER = 1;
-  public static final int DEPTH = 2;
-  public static final int ZOOM = 3;
-  public static final int DEFAULT = -1;
+  
   private static final float MIN_SCALE_DEPTH = 0.75f;
   private static final float MIN_SCALE_ZOOM = 0.85f;
   private static final float MIN_ALPHA_ZOOM = 0.5f;
   private static final float SCALE_FACTOR_SLIDE = 0.85f;
   private static final float MIN_ALPHA_SLIDE = 0.35f;
+  @Transformer
   private final int mTransformType;
 
-  CarouselViewPagerTransformer(int transformType) {
+  public CarouselViewPagerTransformer(@Transformer int transformType) {
     mTransformType = transformType;
   }
 
@@ -44,11 +37,11 @@ public class CarouselViewPagerTransformer implements ViewPager.PageTransformer {
     final float translationX;
 
     switch (mTransformType) {
-      case FLOW:
+      case Transformer.FLOW:
         page.setRotationY(position * -30f);
         return;
 
-      case SLIDE_OVER:
+      case Transformer.SLIDE_OVER:
         if (position < 0 && position > -1) {
           // this is the page to the left
           scale = Math.abs(Math.abs(position) - 1) * (1.0f - SCALE_FACTOR_SLIDE) + SCALE_FACTOR_SLIDE;
@@ -67,7 +60,7 @@ public class CarouselViewPagerTransformer implements ViewPager.PageTransformer {
         }
         break;
 
-      case DEPTH:
+      case Transformer.DEPTH:
         if (position > 0 && position < 1) {
           // moving to the right
           alpha = (1 - position);
@@ -81,7 +74,7 @@ public class CarouselViewPagerTransformer implements ViewPager.PageTransformer {
         }
         break;
 
-      case ZOOM:
+      case Transformer.ZOOM:
         if (position >= -1 && position <= 1) {
           scale = Math.max(MIN_SCALE_ZOOM, 1 - Math.abs(position));
           alpha = MIN_ALPHA_ZOOM +
@@ -108,10 +101,5 @@ public class CarouselViewPagerTransformer implements ViewPager.PageTransformer {
     page.setTranslationX(translationX);
     page.setScaleX(scale);
     page.setScaleY(scale);
-  }
-
-  @IntDef({FLOW, SLIDE_OVER, DEPTH, ZOOM, DEFAULT})
-  @Retention(RetentionPolicy.SOURCE)
-  @interface Transformer {
   }
 }
