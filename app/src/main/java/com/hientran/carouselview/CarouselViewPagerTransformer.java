@@ -5,6 +5,7 @@ package com.hientran.carouselview;
  */
 
 import android.support.annotation.IntDef;
+import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
@@ -31,12 +32,13 @@ public class CarouselViewPagerTransformer implements ViewPager.PageTransformer {
   private static final float SCALE_FACTOR_SLIDE = 0.85f;
   private static final float MIN_ALPHA_SLIDE = 0.35f;
   private final int mTransformType;
+
   CarouselViewPagerTransformer(int transformType) {
     mTransformType = transformType;
   }
 
   @Override
-  public void transformPage(View page, float position) {
+  public void transformPage(@NonNull View page, float position) {
     final float alpha;
     final float scale;
     final float translationX;
@@ -108,11 +110,8 @@ public class CarouselViewPagerTransformer implements ViewPager.PageTransformer {
     page.setScaleY(scale);
   }
 
-  /**
-   * @hide
-   */
   @IntDef({FLOW, SLIDE_OVER, DEPTH, ZOOM, DEFAULT})
   @Retention(RetentionPolicy.SOURCE)
-  public @interface Transformer {
+  @interface Transformer {
   }
 }

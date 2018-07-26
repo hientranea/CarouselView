@@ -1,5 +1,6 @@
 package com.hientran.carouselview;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -261,6 +262,7 @@ public class CirclePageIndicator extends View implements PageIndicator {
     canvas.drawCircle(dX, dY, mRadius, mPaintFill);
   }
 
+  @SuppressLint("ClickableViewAccessibility")
   public boolean onTouchEvent(android.view.MotionEvent ev) {
     if (super.onTouchEvent(ev)) {
       return true;
@@ -352,7 +354,8 @@ public class CirclePageIndicator extends View implements PageIndicator {
       return;
     }
     if (mViewPager != null) {
-      mViewPager.addOnPageChangeListener(null);
+      //mViewPager.addOnPageChangeListener(null);
+      mViewPager.removeOnPageChangeListener(this);
     }
     if (view.getAdapter() == null) {
       throw new IllegalStateException("ViewPager does not have adapter instance.");

@@ -1,9 +1,5 @@
 package com.hientran.carouselview;
 
-/**
- * Created by hientran on 07/25/18.
- */
-
 import android.support.v4.view.ViewPager;
 
 /**

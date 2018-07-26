@@ -10,8 +10,7 @@ import android.widget.Scroller;
 
 public class CarouselViewPagerScroller extends Scroller {
 
-
-  int mScrollDuration = 600;
+  int mScrollDuration = Constant.SCROLL_DURATION;
 
   public CarouselViewPagerScroller(Context context) {
     super(context);
@@ -30,6 +29,4 @@ public class CarouselViewPagerScroller extends Scroller {
   public void startScroll(int startX, int startY, int dx, int dy) {
     super.startScroll(startX, startY, dx, dy, mScrollDuration);
   }
-
-
 }
