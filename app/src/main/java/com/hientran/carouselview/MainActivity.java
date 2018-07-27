@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
     carouselView.setImageListener(imageListener);
     customCarouselView.setViewListener(viewListener);
-    carouselView.setImageClickListener(new ImageClickListener() {
+    carouselView.setEntryViewClickListener(new EntryViewClickListener() {
       @Override
       public void onClick(int position) {
         Toast.makeText(MainActivity.this, "Clicked item: "+ position, Toast.LENGTH_SHORT).show();

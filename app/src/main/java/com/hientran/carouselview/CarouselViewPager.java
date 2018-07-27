@@ -14,7 +14,7 @@ import java.lang.reflect.Field;
  */
 public class CarouselViewPager extends ViewPager {
 
-  private ImageClickListener imageClickListener;
+  private EntryViewClickListener imageClickListener;
   private float oldX = 0, newX = 0, sens = 5;
   private CarouselViewPagerScroller mScroller = null;
 
@@ -28,7 +28,7 @@ public class CarouselViewPager extends ViewPager {
     postInitViewPager();
   }
 
-  public void setImageClickListener(ImageClickListener imageClickListener) {
+  public void setEntryViewClickListener(EntryViewClickListener imageClickListener) {
     this.imageClickListener = imageClickListener;
   }
 

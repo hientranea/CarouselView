@@ -4,6 +4,6 @@ package com.hientran.carouselview;
  * Created by hientran on 07/25/18.
  */
 
-public interface ImageClickListener {
+public interface EntryViewClickListener {
   void onClick(int position);
 }
