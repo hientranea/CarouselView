@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hientran.carouselview.listener.ImageListener;
+import com.hientran.carouselview.listener.ViewListener;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -34,6 +36,47 @@ public class MainActivity extends AppCompatActivity {
       "https://placeholdit.imgix.net/~text?txtsize=15&txt=image4&txt=350%C3%97150&w=350&h=150",
       "https://placeholdit.imgix.net/~text?txtsize=15&txt=image5&txt=350%C3%97150&w=350&h=150"
   };
+  // To set simple images
+  ImageListener imageListener = new ImageListener() {
+    @Override
+    public void setImageForPosition(int position, ImageView imageView) {
+
+      Picasso.with(getApplicationContext())
+          .load(sampleNetworkImageURLs[position])
+          //.placeholder(sampleImages[0])
+          //.error(sampleImages[3])
+          .fit()
+          .centerCrop()
+          .into(imageView);
+
+      //imageView.setImageResource(sampleImages[position]);
+    }
+  };
+  // To set custom views
+  ViewListener viewListener = new ViewListener() {
+    @Override
+    public View setViewForPosition(int position) {
+
+      View customView = getLayoutInflater().inflate(R.layout.view_custom, null);
+
+      TextView labelTextView = (TextView) customView.findViewById(R.id.labelTextView);
+      ImageView fruitImageView = (ImageView) customView.findViewById(R.id.fruitImageView);
+
+      fruitImageView.setImageResource(sampleImages[position]);
+      labelTextView.setText(sampleTitles[position]);
+
+      carouselView.setIndicatorGravity(Gravity.CENTER_HORIZONTAL | Gravity.TOP);
+
+      return customView;
+    }
+  };
+  View.OnClickListener pauseOnClickListener = new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+      carouselView.pauseCarousel();
+      customCarouselView.reSetSlideInterval(0);
+    }
+  };
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -53,59 +96,15 @@ public class MainActivity extends AppCompatActivity {
     customCarouselView.setPageCount(sampleImages.length);
     customCarouselView.setSlideInterval(4000);
 
-    carouselView.setImageListener(imageListener);
-    customCarouselView.setViewListener(viewListener);
+    carouselView.setCarouselListener(imageListener);
+    customCarouselView.setCarouselListener(viewListener);
     carouselView.setEntryViewClickListener(new EntryViewClickListener() {
       @Override
       public void onClick(int position) {
-        Toast.makeText(MainActivity.this, "Clicked item: "+ position, Toast.LENGTH_SHORT).show();
+        Toast.makeText(MainActivity.this, "Clicked item: " + position, Toast.LENGTH_SHORT).show();
       }
     });
 
   }
-
-  // To set simple images
-  ImageListener imageListener = new ImageListener() {
-    @Override
-    public void setImageForPosition(int position, ImageView imageView) {
-
-      Picasso.with(getApplicationContext())
-          .load(sampleNetworkImageURLs[position])
-          //.placeholder(sampleImages[0])
-          //.error(sampleImages[3])
-          .fit()
-          .centerCrop()
-          .into(imageView);
-
-      //imageView.setImageResource(sampleImages[position]);
-    }
-  };
-
-  // To set custom views
-  ViewListener viewListener = new ViewListener() {
-    @Override
-    public View setViewForPosition(int position) {
-
-      View customView = getLayoutInflater().inflate(R.layout.view_custom, null);
-
-      TextView labelTextView = (TextView) customView.findViewById(R.id.labelTextView);
-      ImageView fruitImageView = (ImageView) customView.findViewById(R.id.fruitImageView);
-
-      fruitImageView.setImageResource(sampleImages[position]);
-      labelTextView.setText(sampleTitles[position]);
-
-      carouselView.setIndicatorGravity(Gravity.CENTER_HORIZONTAL|Gravity.TOP);
-
-      return customView;
-    }
-  };
-
-  View.OnClickListener pauseOnClickListener = new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-      carouselView.pauseCarousel();
-      customCarouselView.reSetSlideInterval(0);
-    }
-  };
 
 }

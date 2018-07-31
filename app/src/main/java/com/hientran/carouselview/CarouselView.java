@@ -18,6 +18,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RemoteViews.RemoteView;
 
+import com.hientran.carouselview.listener.CarouseListener;
+import com.hientran.carouselview.listener.ImageListener;
+import com.hientran.carouselview.listener.ViewListener;
 import com.hientran.carouselview.transform.CarouselViewPagerTransformer;
 import com.hientran.carouselview.transform.Transformer;
 
@@ -44,8 +47,7 @@ public class CarouselView extends FrameLayout {
 
   private CarouselViewPager containerViewPager;
   private CirclePageIndicator mIndicator;
-  private ViewListener mViewListener = null;
-  private ImageListener mImageListener = null;
+  private CarouseListener mCarouselListener = null;
 
   private Timer swipeTimer;
   private SwipeTask swipeTask;
@@ -227,19 +229,19 @@ public class CarouselView extends FrameLayout {
 
   /**
    * Sets page transition animation.
-   */
-  public void setPageTransformer(@Transformer int transformer) {
-    setPageTransformer(new CarouselViewPagerTransformer(transformer));
-  }
-
-  /**
-   * Sets page transition animation.
    *
    * @param pageTransformer Choose from zoom, flow, depth, slide_over .
    */
   public void setPageTransformer(ViewPager.PageTransformer pageTransformer) {
     this.pageTransformer = pageTransformer;
     containerViewPager.setPageTransformer(true, pageTransformer);
+  }
+
+  /**
+   * Sets page transition animation.
+   */
+  public void setPageTransformer(@Transformer int transformer) {
+    setPageTransformer(new CarouselViewPagerTransformer(transformer));
   }
 
   /**
@@ -325,12 +327,8 @@ public class CarouselView extends FrameLayout {
     this.autoPlay = false;
   }
 
-  public void setImageListener(ImageListener mImageListener) {
-    this.mImageListener = mImageListener;
-  }
-
-  public void setViewListener(ViewListener mViewListener) {
-    this.mViewListener = mViewListener;
+  public void setCarouselListener(CarouseListener carouselListener) {
+    this.mCarouselListener = carouselListener;
   }
 
   public void setEntryViewClickListener(EntryViewClickListener entryViewClickListener) {
@@ -487,24 +485,28 @@ public class CarouselView extends FrameLayout {
     @Override
     public Object instantiateItem(@NonNull ViewGroup collection, int position) {
 
-      Object objectToReturn;
+      Object objectToReturn = new Object();
 
+      if (mCarouselListener == null) {
+        return objectToReturn;
+      }
       //Either let user set image to ImageView
-      if (mImageListener != null) {
+      if (mCarouselListener instanceof ImageListener) {
 
         ImageView imageView = new ImageView(mContext);
         imageView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));  //setting image position
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
         objectToReturn = imageView;
-        mImageListener.setImageForPosition(position, imageView);
+        ((ImageListener) mCarouselListener).setImageForPosition(position, imageView);
 
         collection.addView(imageView);
-
+        return objectToReturn;
         //Or let user add his own ViewGroup
-      } else if (mViewListener != null) {
+      }
+      if (mCarouselListener instanceof ViewListener) {
 
-        View view = mViewListener.setViewForPosition(position);
+        View view = ((ViewListener) mCarouselListener).setViewForPosition(position);
 
         if (null != view) {
           objectToReturn = view;
@@ -512,12 +514,9 @@ public class CarouselView extends FrameLayout {
         } else {
           throw new RuntimeException("View can not be null for position " + position);
         }
-
-      } else {
-        throw new RuntimeException("View must set " + ImageListener.class.getSimpleName() + " or " + ViewListener.class.getSimpleName() + ".");
+        return objectToReturn;
       }
-
-      return objectToReturn;
+      throw new RuntimeException("View must set " + ImageListener.class.getSimpleName() + " or " + ViewListener.class.getSimpleName() + ".");
     }
 
     @Override
