@@ -22,6 +22,7 @@ import com.hientran.carouselview.listener.CarouseListener;
 import com.hientran.carouselview.listener.ImageListener;
 import com.hientran.carouselview.listener.ViewListener;
 import com.hientran.carouselview.transform.CarouselViewPagerTransformer;
+import com.hientran.carouselview.transform.ScaleInOutTransformer;
 import com.hientran.carouselview.transform.Transformer;
 
 import java.util.Timer;
@@ -242,6 +243,7 @@ public class CarouselView extends FrameLayout {
    */
   public void setPageTransformer(@Transformer int transformer) {
     setPageTransformer(new CarouselViewPagerTransformer(transformer));
+    //setPageTransformer(new ScaleInOutTransformer());
   }
 
   /**

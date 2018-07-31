@@ -36,10 +36,22 @@
     </attr>
 
     <attr name="pageTransformer">
-        <enum name="slide_over" value="1001" />
-        <enum name="depth" value="1002" />
-        <enum name="zoom" value="1003" />
-        <enum name="flow" value="1004" />
+        <enum name="accordion" value="1001" />
+        <enum name="background_to_foreground" value="1002" />
+        <enum name="cube_out" value="1003" />
+        <enum name="depth_page" value="1004" />
+        <enum name="drawer" value="1005" />
+        <enum name="flip_horizontal" value="1006" />
+        <enum name="flip_vertical" value="1007" />
+        <enum name="foreground_to_background" value="1008" />
+        <enum name="rotate_down" value="1009" />
+        <enum name="rotate_up" value="1010" />
+        <enum name="scale_in_out" value="1011" />
+        <enum name="stack" value="1012" />
+        <enum name="tablet" value="1013" />
+        <enum name="zoom_in" value="1014" />
+        <enum name="zoom_out_slide" value="1015" />
+        <enum name="zoom_out" value="1016" />
     </attr>
 
     <attr name="centered" format="boolean" />

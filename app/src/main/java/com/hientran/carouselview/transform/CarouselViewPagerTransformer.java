@@ -36,7 +36,7 @@ public class CarouselViewPagerTransformer implements ViewPager.PageTransformer {
     final float scale;
     final float translationX;
 
-    switch (mTransformType) {
+    /*switch (mTransformType) {
       case Transformer.FLOW:
         page.setRotationY(position * -30f);
         return;
@@ -101,6 +101,6 @@ public class CarouselViewPagerTransformer implements ViewPager.PageTransformer {
     page.setAlpha(alpha);
     page.setTranslationX(translationX);
     page.setScaleX(scale);
-    page.setScaleY(scale);
+    page.setScaleY(scale);*/
   }
 }
