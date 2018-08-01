@@ -21,9 +21,8 @@ import android.widget.RemoteViews.RemoteView;
 import com.hientran.carouselview.listener.CarouseListener;
 import com.hientran.carouselview.listener.ImageListener;
 import com.hientran.carouselview.listener.ViewListener;
-import com.hientran.carouselview.transform.CarouselViewPagerTransformer;
-import com.hientran.carouselview.transform.ScaleInOutTransformer;
 import com.hientran.carouselview.transform.Transformer;
+import com.hientran.carouselview.transform.ViewPagerTransformerProvider;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -242,8 +241,7 @@ public class CarouselView extends FrameLayout {
    * Sets page transition animation.
    */
   public void setPageTransformer(@Transformer int transformer) {
-    setPageTransformer(new CarouselViewPagerTransformer(transformer));
-    //setPageTransformer(new ScaleInOutTransformer());
+    setPageTransformer( ViewPagerTransformerProvider.getTransformer(transformer));
   }
 
   /**

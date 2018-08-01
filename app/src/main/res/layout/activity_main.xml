@@ -43,6 +43,7 @@
         android:layout_below="@+id/carouselLabel"
         android:layout_marginTop="20dp"
         app:disableAutoPlayOnUserInteraction="true"
+        app:pageTransformer="flip_vertical"
         app:fillColor="#FFFFFFFF"
         app:pageColor="#00000000"
         app:radius="6dp"
