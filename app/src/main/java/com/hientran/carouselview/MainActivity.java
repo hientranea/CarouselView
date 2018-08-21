@@ -9,8 +9,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.hientran.carouselview.listener.ImageListener;
-import com.hientran.carouselview.listener.ViewListener;
+import com.hientp.carouselview.CarouselView;
+import com.hientp.carouselview.EntryViewClickListener;
+import com.hientp.carouselview.listener.ImageListener;
+import com.hientp.carouselview.listener.ViewListener;
 import com.squareup.picasso.Picasso;
 
 /**

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.hientran.carouselview.CarouselView
+    <com.hientp.carouselview.CarouselView
         android:id="@+id/carouselView"
         android:layout_width="match_parent"
         android:layout_height="200dp"
@@ -36,7 +36,7 @@
         android:textColor="@android:color/black"
         android:textSize="18sp"/>
 
-    <com.hientran.carouselview.CarouselView
+    <com.hientp.carouselview.CarouselView
         android:id="@+id/customCarouselView"
         android:layout_width="match_parent"
         android:layout_height="200dp"
